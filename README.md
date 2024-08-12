@@ -22,7 +22,7 @@ _**[Jinbo Xing](https://doubiiu.github.io/), [Menghan Xia*](https://menghanxia.g
 <br><br>
 From CUHK and Tencent AI Lab.
 
-<strong>at European Conference on Computer Vision (ECCV) 2024</strong>
+<strong>at European Conference on Computer Vision (ECCV) 2024, Oral</strong>
 </div>
  
 ## 🔆 Introduction
