@@ -404,6 +404,8 @@ The annoations of our WebVid-10M-motion is available on [Huggingface Dataset](ht
 [MakeYourVideo, might be a Crafter:)](https://doubiiu.github.io/projects/Make-Your-Video/): Video generation/editing with textual and structural guidance.
 
 [StyleCrafter](https://gongyeliu.github.io/StyleCrafter.github.io/): Stylized-image-guided text-to-image and text-to-video generation.
+
+[ViewCrafter](https://github.com/Drexubery/ViewCrafter): Novel view synthesis by taming camera-pose-controlled DynamiCrafter.
 ## 😉 Citation
 Please consider citing our paper if our code and dataset annotations are useful:
 ```bib
