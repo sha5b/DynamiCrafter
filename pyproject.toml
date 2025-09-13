@@ -1,0 +1,41 @@
+# File: pyproject.toml
+# Purpose: uv-managed environment for the DynamiCrafter demo. Pins Python 3.8.5 and core libs.
+# Excludes Torch/XFormers from resolver so we can install the correct CUDA wheels manually.
+# Connected to: `requirements.txt` (upstream reference), `gradio_app.py` (UI entry), `scripts/*` (CLI),
+# and `checkpoints/*` (model files expected by run scripts and the Gradio app).
+[project]
+name = "dynamicrafter"
+version = "1.0.0"
+description = "DynamiCrafter: Animating Open-domain Images with Video Diffusion Priors"
+readme = "README.md"
+requires-python = "==3.8.5"
+dependencies = [
+    "decord==0.6.0",
+    "einops==0.3.0",
+    "imageio==2.9.0",
+    "numpy==1.24.2",
+    "omegaconf==2.1.1",
+    "opencv-python",
+    "pandas==2.0.0",
+    "pillow==9.5.0",
+    "pytorch-lightning==1.9.3",
+    "pyyaml==6.0",
+    "setuptools==65.6.3",
+    "tqdm==4.65.0",
+    "transformers==4.25.1",
+    "moviepy",
+    "av",
+    "gradio==3.50.2",
+    "timm",
+    "scikit-learn",
+    "open-clip-torch==2.22.0",
+    "kornia==0.6.12",
+    "huggingface-hub>=0.21.0"
+]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+package = false
