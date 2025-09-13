@@ -89,3 +89,48 @@ uv run --no-sync python gradio_app_interp_and_loop.py
 
 Notes:
 - This app will auto-download the `DynamiCrafter512_interp` weights to `checkpoints/dynamicrafter_512_interp_v1/` on first run if needed.
+
+## Why use `--no-sync` with uv?
+
+By default, `uv run` attempts to sync your environment to `pyproject.toml`/`uv.lock`. We intentionally do not pin `torch` in `pyproject.toml` because the correct wheel depends on your CUDA version. A normal sync can therefore pull a CPU-only `torch` transitively and overwrite your CUDA build.
+
+`--no-sync` tells uv to run without modifying the environment, preserving the CUDA-enabled `torch` you installed via `scripts/install_torch.py`.
+
+### Alternative: use the venv’s Python directly
+```powershell
+./.venv/Scripts/python gradio_app.py --res 1024
+./.venv/Scripts/python gradio_app_interp_and_loop.py
+```
+
+## Torch install/verify quick reference
+
+```powershell
+# Reinstall CUDA-enabled torch wheels with automatic detection/fallbacks
+uv run --no-sync python scripts/install_torch.py --reinstall
+
+# Verify CUDA availability
+uv run --no-sync python -c "import torch, torch.cuda as c; print('torch', torch.__version__, 'cuda', torch.version.cuda, 'available', c.is_available())"
+```
+
+If CUDA is not available, ensure your NVIDIA driver and MSVC 2015–2022 (x64) Redistributable are installed. You can add `--install-vcredist` to the installer script on Windows.
+
+## Checkpoint downloads (Hugging Face)
+
+On first run, the apps auto-download checkpoints into `checkpoints/`. Downloads are large and may take time. The downloader is configured to resume and retry on transient errors.
+
+If your network is flaky, enabling the Rust-based transfer tool often helps:
+```powershell
+uv run --no-sync python -m pip install -U hf_transfer
+setx HF_HUB_ENABLE_HF_TRANSFER 1
+# Open a new terminal, then run the app again
+```
+
+Manual fallback (explicit CLI with resume):
+```powershell
+uv run --no-sync huggingface-cli download Doubiiu/DynamiCrafter_512 model.ckpt `
+  --local-dir checkpoints/dynamicrafter_512_v1 `
+  --local-dir-use-symlinks False `
+  --resume
+
+uv run --no-sync python gradio_app.py --res 512
+```

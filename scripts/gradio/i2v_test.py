@@ -37,7 +37,7 @@ class Image2Video():
     def get_image(self, image, prompt, steps=50, cfg_scale=7.5, eta=1.0, fs=3, seed=123):
         seed_everything(seed)
         transform = transforms.Compose([
-            transforms.Resize(min(self.resolution)),
+            transforms.Resize(min(self.resolution), antialias=True),
             transforms.CenterCrop(self.resolution),
             ])
         torch.cuda.empty_cache()
