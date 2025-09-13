@@ -59,3 +59,33 @@ If `available` is `True` and a CUDA version is shown, your GPU build is working.
 ## Next steps
 - For inference, training, and demos, follow the instructions in the upstream README: https://github.com/Doubiiu/DynamiCrafter
 - Launch commands (examples) will work when run via `uv run --no-sync ...` using this environment.
+
+## Run the Gradio demos by resolution
+
+### Image-to-Video (choose 256, 512, or 1024)
+Launch the app for a specific resolution using the `--res` flag:
+
+```powershell
+# 256x256
+uv run --no-sync python gradio_app.py --res 256
+
+# 320x512
+uv run --no-sync python gradio_app.py --res 512
+
+# 576x1024
+uv run --no-sync python gradio_app.py --res 1024
+```
+
+Notes:
+- On first run, the app will automatically download the corresponding pretrained weights from Hugging Face into `checkpoints/` if they are missing.
+- Keep using `--no-sync` so uv does not attempt to replace CUDA-enabled wheels.
+
+### Generative Frame Interpolation and Looping (320x512)
+The interpolation and seamless looping demo runs at 320x512:
+
+```powershell
+uv run --no-sync python gradio_app_interp_and_loop.py
+```
+
+Notes:
+- This app will auto-download the `DynamiCrafter512_interp` weights to `checkpoints/dynamicrafter_512_interp_v1/` on first run if needed.
