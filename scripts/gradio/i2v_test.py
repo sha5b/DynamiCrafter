@@ -98,8 +98,26 @@ class Image2Video():
             os.makedirs('./checkpoints/dynamicrafter_'+str(self.resolution[1])+'_v1/')
         for filename in filename_list:
             local_file = os.path.join('./checkpoints/dynamicrafter_'+str(self.resolution[1])+'_v1/', filename)
-            if not os.path.exists(local_file):
-                hf_hub_download(repo_id=REPO_ID, filename=filename, local_dir='./checkpoints/dynamicrafter_'+str(self.resolution[1])+'_v1/', local_dir_use_symlinks=False)
+            if os.path.exists(local_file):
+                continue
+            # Robust download with resume + basic retries for transient network errors
+            attempts, max_attempts = 0, 5
+            while attempts < max_attempts:
+                try:
+                    hf_hub_download(
+                        repo_id=REPO_ID,
+                        filename=filename,
+                        local_dir='./checkpoints/dynamicrafter_'+str(self.resolution[1])+'_v1/',
+                        local_dir_use_symlinks=False,
+                        resume_download=True,
+                    )
+                    break
+                except Exception as e:
+                    attempts += 1
+                    print(f"Warning: download failed (attempt {attempts}/{max_attempts}): {e}")
+                    if attempts >= max_attempts:
+                        raise
+                    time.sleep(3 * attempts)
     
 if __name__ == '__main__':
     i2v = Image2Video()
